@@ -10,6 +10,7 @@ function App() {
   const [countries, setCountries] = useState([])
   const [searchTerm, setSearchTerm] = useState("")
   const [region, setRegion] = useState("")
+  const [reloadCount, setReloadCount] = useState(0)
 
   const [debouncedSearch, setDebouncedSearch] = useState(searchTerm)
 
@@ -28,7 +29,7 @@ function App() {
         
         let API_KEY = ""
 
-        if (searchTerm.length >= 2) {
+        if (debouncedSearch.length >= 2) {
           API_KEY = `https://restcountries.com/v3.1/name/${debouncedSearch}?fields=name,capital,flags,region,population,cca3`
         } else if (region) {
           API_KEY = `https://restcountries.com/v3.1/region/${region}?fields=name,capital,flags,region,population,cca3`;
@@ -46,13 +47,13 @@ function App() {
         setCountries(result);
       } catch (error) {
         setError(error);
-        setCountries(null);
+        setCountries([]);
       } finally {
         setLoading(false);
       }
     }
     fetchCountries()
-  }, [region, debouncedSearch])
+  }, [region, debouncedSearch, reloadCount])
 
   if (loading) {
     return(
@@ -62,10 +63,21 @@ function App() {
 
   if (error) {
     return (
-      <div className="text-red-500 text-center my-5">Failed to fetch data!</div>      
+      <div>
+        <div className="text-red-500 text-center my-5">Failed to fetch data!</div>      
+        <button className='bg-blue-50 border border-blue-400 rounded-sm mx-auto block px-4 py-2 hover:bg-blue-400 hover:text-blue-50'
+          onClick={handleReload}
+        >Load again</button>
+      </div>
     )
   }
   
+  function handleReload () {
+    setSearchTerm("")
+    setError("")
+    setReloadCount(prev => prev + 1)  
+  }
+
   const filteredCountries = countries.filter((country) =>
     country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
   );

@@ -13,7 +13,6 @@ export default function Search ({searchTerm, setSearchTerm}) {
                     className="bg-gray-100 my-2 focus:border-none focus:outline-none text-gray-400"
                     value={searchTerm}
                     onChange={(e) => 
-                        // e.preventDefault();
                         setSearchTerm(e.target.value)
                     }
                 />
