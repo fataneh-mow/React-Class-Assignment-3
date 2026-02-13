@@ -56,13 +56,13 @@ function App() {
 
   if (loading) {
     return(
-      <div className="text-gray-400 text-center">Loading data ...</div>
+      <div className="text-gray-50 text-center my-5">Loading data ...</div>
     )
   }
 
   if (error) {
     return (
-      <div className="text-red-500 text-center">Failed to fetch data!</div>      
+      <div className="text-red-500 text-center my-5">Failed to fetch data!</div>      
     )
   }
   
