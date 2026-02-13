@@ -73,9 +73,17 @@ function App() {
   }
   
   function handleReload () {
-    setSearchTerm("")
-    setError("")
-    setReloadCount(prev => prev + 1)  
+    try {
+      setSearchTerm("")
+      setError("")
+      setReloadCount(prev => prev + 1)    
+    } catch (error) {
+      setError(error)
+    } finally {
+      setError("")
+      setLoading(false)
+    }
+    
   }
 
   const filteredCountries = countries.filter((country) =>
